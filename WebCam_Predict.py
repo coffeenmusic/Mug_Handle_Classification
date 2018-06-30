@@ -12,10 +12,6 @@ from microwave import Microwave
 import cv2
 import time
 
-data_dir = 'Images/'
-contents = os.listdir(data_dir)
-classes = [each for each in contents if os.path.isdir(data_dir + each)]
-
 with open('labels') as f:
     reader = csv.reader(f, delimiter='\n')
     labels = np.array([each for each in reader if len(each) > 0]).squeeze()
@@ -46,7 +42,7 @@ with tf.Session() as sess:
     plt.show()
 
     m = Microwave()
-    while(count < 300):
+    while(count < 50):
         start_time = time.time()
         m.cam_capture()
         print(time.time() - start_time)
