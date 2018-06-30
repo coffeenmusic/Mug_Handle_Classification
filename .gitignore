@@ -3,3 +3,4 @@ Images/
 tensorflow_vgg/
 assets/
 checkpoints/
+__pycache__/
