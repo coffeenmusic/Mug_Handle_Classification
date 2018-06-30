@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import imread
 from microwave import Microwave
 import cv2
+import time
 
 data_dir = 'Images/'
 contents = os.listdir(data_dir)
@@ -40,9 +41,15 @@ with tf.Session() as sess:
     predicted = graph.get_tensor_by_name("predicted:0")
     
     count = 0
-    while(count < 10):
-        m = Microwave()
+    fig = plt.figure(figsize=(15,20))
+    plt.ion() # Interactive Mode
+    plt.show()
+
+    m = Microwave()
+    while(count < 300):
+        start_time = time.time()
         m.cam_capture()
+        print(time.time() - start_time)
 	
         img = utils.load_image_capture(m.rotated_img)
         img = img.reshape((1, 224, 224, 3))
@@ -52,18 +59,27 @@ with tf.Session() as sess:
 	
         feed = {inputs_: code}
         prediction = sess.run(predicted, feed_dict=feed).squeeze()
-
-        print(predicted)
 	
-	    # Plot image and class predictions
-        plt.figure()
-        plt.subplot(211)
-        plt.imshow(m.rotated_img)
+	    # Plot image and class predictions-------------
 
+        # Camera Capture
+        plt.subplot(211)
+        plt.imshow(m.rotated_img) # Show camera capture
+
+        # Prediction Probabilities Bar Graph
         plt.subplot(212)
         plt.barh(np.arange(len(lb.classes_)), prediction)
         _ = plt.yticks(np.arange(len(lb.classes_)), lb.classes_)
-        plt.show()
+
+        # Bool Prediction Represented In Figure Color
+        if prediction[1] > 0.7:
+            fig.patch.set_facecolor('xkcd:mint green');
+        else:
+            fig.patch.set_facecolor('red');
+
+        plt.draw()
+        plt.pause(0.01)
+        plt.gcf().clear()
 		
         count += 1
 
