@@ -1,5 +1,5 @@
 # Stop Microwave With Handle Facing the Door
-![Microwave Classifier](https://github.com/coffeenmusic/Mug_Handle_Classification/microwave_handle_classification.gif)
+![Microwave Classifier](https://raw.githubusercontent.com/coffeenmusic/Mug_Handle_Classification/master/microwave_handle_classification.gif)
 
 ### Sample.py
 Launches a GUI that can be used to create classification images. Will need an Images directory.
